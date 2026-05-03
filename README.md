@@ -177,6 +177,24 @@ Changes:
 * Used encoder outputs instead of only final hidden state
 * Combined attention output with decoder output
 
+## Date Converter Using Encoder Decoder Architecture 
+
+**DATASET**:
+We used datetime library to generate dataset
+
+Steps:
+ * We created Custom Chracter Level Vocabulary for the Vocab of 68 characters(A-Z, a-z, 0-9, spaces, hyphens)
+ * We used Special tokens like <PAD> for unknown , <SOS> for start of sentence and <EOS> for End of Sentence for detecting the date start and end
+
+**Encoder**:
+ * Read the input date and convert it to single context vector using nn.Embedding()
+ * We pass the Context coordinates to the GRU layer and it reads from left to right and take the final layer context
+ * We also used force_ratio to feed the training layer to accept the exact target incase the prediction is below threshold
+   
+**Decoder**
+ * The decoder unroll the context vector from encoder and format it to yyyy-mm-dd
+ * Then it start reads from <SOS> and take best possible match from the vocab and end at <EOS>
+
 Result:
 
 * Improved translation quality
